@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditSellTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditSellLabel_idOrder}" for="idOrder" />
+                    <h:inputText id="idOrder" value="#{sellController.selected.idOrder}" title="#{bundle.EditSellTitle_idOrder}" required="true" requiredMessage="#{bundle.EditSellRequiredMessage_idOrder}"/>
+                    <h:outputLabel value="#{bundle.EditSellLabel_actualdate}" for="actualdate" />
+                    <h:inputText id="actualdate" value="#{sellController.selected.actualdate}" title="#{bundle.EditSellTitle_actualdate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditSellLabel_deliverydate}" for="deliverydate" />
+                    <h:inputText id="deliverydate" value="#{sellController.selected.deliverydate}" title="#{bundle.EditSellTitle_deliverydate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditSellLabel_clientidClient}" for="clientidClient" />
+                    <h:selectOneMenu id="clientidClient" value="#{sellController.selected.clientidClient}" title="#{bundle.EditSellTitle_clientidClient}" >
+                        <f:selectItems value="#{clientController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{sellController.update}" value="#{bundle.EditSellSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditSellViewLink}"/>
+                <br />
+                <h:commandLink action="#{sellController.prepareList}" value="#{bundle.EditSellShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditSellIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

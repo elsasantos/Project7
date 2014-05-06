@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditAttributeTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditAttributeLabel_idAttribute}" for="idAttribute" />
+                    <h:inputText id="idAttribute" value="#{attributeController.selected.idAttribute}" title="#{bundle.EditAttributeTitle_idAttribute}" required="true" requiredMessage="#{bundle.EditAttributeRequiredMessage_idAttribute}"/>
+                    <h:outputLabel value="#{bundle.EditAttributeLabel_attribute}" for="attribute" />
+                    <h:inputText id="attribute" value="#{attributeController.selected.attribute}" title="#{bundle.EditAttributeTitle_attribute}" />
+                    <h:outputLabel value="#{bundle.EditAttributeLabel_CATEGORYidCategory}" for="CATEGORYidCategory" />
+                    <h:selectOneMenu id="CATEGORYidCategory" value="#{attributeController.selected.CATEGORYidCategory}" title="#{bundle.EditAttributeTitle_CATEGORYidCategory}" >
+                        <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{attributeController.update}" value="#{bundle.EditAttributeSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditAttributeViewLink}"/>
+                <br />
+                <h:commandLink action="#{attributeController.prepareList}" value="#{bundle.EditAttributeShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditAttributeIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

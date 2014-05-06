@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditProductTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditProductLabel_idProduct}" for="idProduct" />
+                    <h:inputText id="idProduct" value="#{productController.selected.idProduct}" title="#{bundle.EditProductTitle_idProduct}" required="true" requiredMessage="#{bundle.EditProductRequiredMessage_idProduct}"/>
+                    <h:outputLabel value="#{bundle.EditProductLabel_brand}" for="brand" />
+                    <h:inputText id="brand" value="#{productController.selected.brand}" title="#{bundle.EditProductTitle_brand}" />
+                    <h:outputLabel value="#{bundle.EditProductLabel_description}" for="description" />
+                    <h:inputTextarea rows="4" cols="30" id="description" value="#{productController.selected.description}" title="#{bundle.EditProductTitle_description}" />
+                    <h:outputLabel value="#{bundle.EditProductLabel_model}" for="model" />
+                    <h:inputText id="model" value="#{productController.selected.model}" title="#{bundle.EditProductTitle_model}" />
+                    <h:outputLabel value="#{bundle.EditProductLabel_price}" for="price" />
+                    <h:inputText id="price" value="#{productController.selected.price}" title="#{bundle.EditProductTitle_price}" />
+                    <h:outputLabel value="#{bundle.EditProductLabel_quantity}" for="quantity" />
+                    <h:inputText id="quantity" value="#{productController.selected.quantity}" title="#{bundle.EditProductTitle_quantity}" />
+                    <h:outputLabel value="#{bundle.EditProductLabel_repositiondate}" for="repositiondate" />
+                    <h:inputText id="repositiondate" value="#{productController.selected.repositiondate}" title="#{bundle.EditProductTitle_repositiondate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditProductLabel_version}" for="version" />
+                    <h:inputText id="version" value="#{productController.selected.version}" title="#{bundle.EditProductTitle_version}" />
+                    <h:outputLabel value="#{bundle.EditProductLabel_categoria}" for="categoria" />
+                    <h:selectOneMenu id="categoria" value="#{productController.selected.categoria}" title="#{bundle.EditProductTitle_categoria}" >
+                        <f:selectItems value="#{categoryController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                </h:panelGrid>
+                <h:commandLink action="#{productController.update}" value="#{bundle.EditProductSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditProductViewLink}"/>
+                <br />
+                <h:commandLink action="#{productController.prepareList}" value="#{bundle.EditProductShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditProductIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
