@@ -1,14 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Projeto 7 -TecnoAPI
+ * Elsa Santos & VitorAires  *
  */
+
 package pt.uc.aor.webservice.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,6 +20,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Elsa
+ * @author Aires
  */
 @Entity
 @Table(name = "sell")
@@ -38,7 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Sell.findByActualdate", query = "SELECT s FROM Sell s WHERE s.actualdate = :actualdate"),
     @NamedQuery(name = "Sell.findByDeliverydate", query = "SELECT s FROM Sell s WHERE s.deliverydate = :deliverydate")})
 public class Sell implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,9 +52,10 @@ public class Sell implements Serializable {
     @Column(name = "deliverydate")
     @Temporal(TemporalType.DATE)
     private Date deliverydate;
-    @ManyToMany
-    private Collection<Product> productCollection;
-
+    @ManyToMany(mappedBy = "sellList")
+    private List<Client> clientList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "sell")
+    private List<SellProduct> sellProductList;
     @JoinColumn(name = "Client_idClient", referencedColumnName = "idClient")
     @ManyToOne
     private Client clientidClient;
@@ -90,12 +92,21 @@ public class Sell implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Product> getProductCollection() {
-        return productCollection;
+    public List<Client> getClientList() {
+        return clientList;
     }
 
-    public void setProductCollection(Collection<Product> productCollection) {
-        this.productCollection = productCollection;
+    public void setClientList(List<Client> clientList) {
+        this.clientList = clientList;
+    }
+
+    @XmlTransient
+    public List<SellProduct> getSellProductList() {
+        return sellProductList;
+    }
+
+    public void setSellProductList(List<SellProduct> sellProductList) {
+        this.sellProductList = sellProductList;
     }
 
     public Client getClientidClient() {

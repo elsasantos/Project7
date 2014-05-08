@@ -1,12 +1,12 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Projeto 7 -TecnoAPI
+ * Elsa Santos & VitorAires  *
  */
+
 package pt.uc.aor.webservice.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Elsa
+ * @author Aires
  */
 @Entity
 @Table(name = "category")
@@ -33,23 +33,19 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Category.findByIdCategory", query = "SELECT c FROM Category c WHERE c.idCategory = :idCategory"),
     @NamedQuery(name = "Category.findByCategory", query = "SELECT c FROM Category c WHERE c.category = :category")})
 public class Category implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idCategory")
     private Long idCategory;
-
     @Size(max = 255)
     @Column(name = "category")
     private String category;
-
-    @OneToMany(mappedBy = "categoria")
-    private Collection<Product> productCollection;
-
+    @OneToMany(mappedBy = "idCategory")
+    private List<Product> productList;
     @OneToMany(mappedBy = "cATEGORYidCategory")
-    private Collection<Attribute> attributeCollection1;
+    private List<Attribute> attributeList;
 
     public Category() {
     }
@@ -75,21 +71,21 @@ public class Category implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Product> getProductCollection() {
-        return productCollection;
+    public List<Product> getProductList() {
+        return productList;
     }
 
-    public void setProductCollection(Collection<Product> productCollection) {
-        this.productCollection = productCollection;
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 
     @XmlTransient
-    public Collection<Attribute> getAttributeCollection1() {
-        return attributeCollection1;
+    public List<Attribute> getAttributeList() {
+        return attributeList;
     }
 
-    public void setAttributeCollection1(Collection<Attribute> attributeCollection1) {
-        this.attributeCollection1 = attributeCollection1;
+    public void setAttributeList(List<Attribute> attributeList) {
+        this.attributeList = attributeList;
     }
 
     @Override

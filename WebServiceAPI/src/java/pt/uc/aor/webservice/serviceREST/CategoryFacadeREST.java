@@ -26,6 +26,7 @@ import pt.uc.aor.webservice.entity.Category;
 @Stateless
 @Path("pt.uc.aor.webservice.entity.category")
 public class CategoryFacadeREST extends AbstractFacade<Category> {
+
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
 
@@ -37,6 +38,7 @@ public class CategoryFacadeREST extends AbstractFacade<Category> {
     @Override
     @Consumes({"application/xml", "application/json"})
     public void create(Category entity) {
+        log.info("Create(" + entity + ")");
         super.create(entity);
     }
 
@@ -77,7 +79,10 @@ public class CategoryFacadeREST extends AbstractFacade<Category> {
     @GET
     @Path("count")
     @Produces("text/plain")
-    public String countREST() {
+    public String countREST(String apiKey) {
+        //ver se o utilizador está na bd
+        //se sim faz....else não faze
+
         return String.valueOf(super.count());
     }
 

@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Projeto 7 -TecnoAPI
+ * Elsa Santos & VitorAires  *
  */
+
 package pt.uc.aor.webservice.entity;
 
 import java.io.Serializable;
@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Elsa
+ * @author Aires
  */
 @Entity
 @Table(name = "attribute")
@@ -31,20 +31,16 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Attribute.findAll", query = "SELECT a FROM Attribute a"),
     @NamedQuery(name = "Attribute.findByIdAttribute", query = "SELECT a FROM Attribute a WHERE a.idAttribute = :idAttribute"),
     @NamedQuery(name = "Attribute.findByAttribute", query = "SELECT a FROM Attribute a WHERE a.attribute = :attribute")})
-
 public class Attribute implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "idAttribute")
     private Long idAttribute;
-
     @Size(max = 255)
     @Column(name = "attribute")
     private String attribute;
-
     @JoinColumn(name = "CATEGORY_idCategory", referencedColumnName = "idCategory")
     @ManyToOne
     private Category cATEGORYidCategory;

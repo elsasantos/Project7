@@ -1,0 +1,8 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Projeto 7 -TecnoAPI
+${licensePrefix}Elsa Santos & VitorAires ${licensePrefix}
+<#if licenseLast??>
+${licenseLast}
+</#if>

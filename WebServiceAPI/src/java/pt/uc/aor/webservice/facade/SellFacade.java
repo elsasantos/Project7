@@ -5,9 +5,11 @@
  */
 package pt.uc.aor.webservice.facade;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.entity.Sell;
 
 /**
@@ -16,6 +18,7 @@ import pt.uc.aor.webservice.entity.Sell;
  */
 @Stateless
 public class SellFacade extends AbstractFacade<Sell> {
+
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
 
@@ -26,6 +29,12 @@ public class SellFacade extends AbstractFacade<Sell> {
 
     public SellFacade() {
         super(Sell.class);
+    }
+
+    public void createSell(List<Product> listproduct, String api) {
+
+        Sell newsell = new Sell();
+
     }
 
 }

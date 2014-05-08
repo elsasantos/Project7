@@ -1,13 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Projeto 7 -TecnoAPI
+ * Elsa Santos & VitorAires  *
  */
+
 package pt.uc.aor.webservice.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,15 +20,17 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Elsa
+ * @author Aires
  */
 @Entity
 @Table(name = "product")
@@ -39,11 +43,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
     @NamedQuery(name = "Product.findByQuantity", query = "SELECT p FROM Product p WHERE p.quantity = :quantity"),
     @NamedQuery(name = "Product.findByRepositiondate", query = "SELECT p FROM Product p WHERE p.repositiondate = :repositiondate"),
-    @NamedQuery(name = "Product.findByVersion", query = "SELECT p FROM Product p WHERE p.version = :version"),
-    @NamedQuery(name = "Product.findByCategoriaProductidProduct", query = "SELECT p FROM Product p WHERE p.idProduct = :idProduct"),
-    @NamedQuery(name = "Product.findByCategoriaidCategoria", query = "SELECT p FROM Product p WHERE p.categoria = :categoria")})
+    @NamedQuery(name = "Product.findByVersion", query = "SELECT p FROM Product p WHERE p.version = :version")})
 public class Product implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,10 +72,11 @@ public class Product implements Serializable {
     @Size(max = 255)
     @Column(name = "version")
     private String version;
-
     @JoinColumn(name = "idCategory", referencedColumnName = "idCategory")
     @ManyToOne
-    private Category categoria;
+    private Category idCategory;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<SellProduct> sellProductList;
 
     public Product() {
     }
@@ -147,12 +149,21 @@ public class Product implements Serializable {
         this.version = version;
     }
 
-    public Category getCategoria() {
-        return categoria;
+    public Category getIdCategory() {
+        return idCategory;
     }
 
-    public void setCategoria(Category categoria) {
-        this.categoria = categoria;
+    public void setIdCategory(Category idCategory) {
+        this.idCategory = idCategory;
+    }
+
+    @XmlTransient
+    public List<SellProduct> getSellProductList() {
+        return sellProductList;
+    }
+
+    public void setSellProductList(List<SellProduct> sellProductList) {
+        this.sellProductList = sellProductList;
     }
 
     @Override

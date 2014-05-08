@@ -7,16 +7,21 @@ package pt.uc.aor.webservice.serviceREST;
 
 import java.util.List;
 import javax.persistence.EntityManager;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
  * @author Elsa
  */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
+    Log log;
 
     public AbstractFacade(Class<T> entityClass) {
         this.entityClass = entityClass;
+        this.log = LogFactory.getLog(entityClass);
     }
 
     protected abstract EntityManager getEntityManager();
