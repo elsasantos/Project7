@@ -37,9 +37,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Client.findByAddress", query = "SELECT c FROM Client c WHERE c.address = :address"),
     @NamedQuery(name = "Client.findByEmail", query = "SELECT c FROM Client c WHERE c.email = :email"),
     @NamedQuery(name = "Client.findByName", query = "SELECT c FROM Client c WHERE c.name = :name"),
-    @NamedQuery(name = "Client.findByPassword", query = "SELECT c FROM Client c WHERE c.password = :password"),
+    @NamedQuery(name = "Client.findByApikey", query = "SELECT c FROM Client c WHERE c.apikey = :apikey"),
     @NamedQuery(name = "Client.findByUsername", query = "SELECT c FROM Client c WHERE c.username = :username")})
 public class Client implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,8 +58,8 @@ public class Client implements Serializable {
     @Column(name = "name")
     private String name;
     @Size(max = 255)
-    @Column(name = "password")
-    private String password;
+    @Column(name = "apikey")
+    private String apikey;
     @Size(max = 255)
     @Column(name = "username")
     private String username;
@@ -107,14 +108,6 @@ public class Client implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getUsername() {
@@ -166,6 +159,20 @@ public class Client implements Serializable {
     @Override
     public String toString() {
         return "pt.uc.aor.webservice.entity.Client[ idClient=" + idClient + " ]";
+    }
+
+    /**
+     * @return the apikey
+     */
+    public String getApikey() {
+        return apikey;
+    }
+
+    /**
+     * @param apikey the apikey to set
+     */
+    public void setApikey(String apikey) {
+        this.apikey = apikey;
     }
 
 }
