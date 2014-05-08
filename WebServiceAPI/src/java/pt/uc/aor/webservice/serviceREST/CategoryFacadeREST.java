@@ -24,7 +24,7 @@ import pt.uc.aor.webservice.entity.Category;
  * @author Elsa
  */
 @Stateless
-@Path("pt.uc.aor.webservice.entity.category")
+@Path("category")
 public class CategoryFacadeREST extends AbstractFacade<Category> {
 
     @PersistenceContext(unitName = "WebServicePU")

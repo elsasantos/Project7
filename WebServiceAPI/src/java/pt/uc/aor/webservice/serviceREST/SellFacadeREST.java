@@ -24,7 +24,7 @@ import pt.uc.aor.webservice.entity.Sell;
  * @author Elsa
  */
 @Stateless
-@Path("pt.uc.aor.webservice.entity.sell")
+@Path("sell")
 public class SellFacadeREST extends AbstractFacade<Sell> {
 
     @PersistenceContext(unitName = "WebServicePU")
