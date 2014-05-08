@@ -24,8 +24,9 @@ import pt.uc.aor.webservice.entity.Client;
  * @author Elsa
  */
 @Stateless
-@Path("pt.uc.aor.webservice.entity.client")
+@Path("client")
 public class ClientFacadeREST extends AbstractFacade<Client> {
+
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
 

@@ -24,8 +24,9 @@ import pt.uc.aor.webservice.entity.Attribute;
  * @author Elsa
  */
 @Stateless
-@Path("pt.uc.aor.webservice.entity.attribute")
+@Path("attribute")
 public class AttributeFacadeREST extends AbstractFacade<Attribute> {
+
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
 
