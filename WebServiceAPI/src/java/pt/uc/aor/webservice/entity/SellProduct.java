@@ -49,6 +49,12 @@ public class SellProduct implements Serializable {
     public SellProduct() {
     }
 
+    public SellProduct(Integer quantity, Sell sell, Product product) {
+        this.quantity = quantity;
+        this.sell = sell;
+        this.product = product;
+    }
+
     public Integer getQuantity() {
         return quantity;
     }
