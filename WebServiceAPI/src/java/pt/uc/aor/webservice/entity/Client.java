@@ -2,7 +2,6 @@
  * Projeto 7 -TecnoAPI
  * Elsa Santos & VitorAires  *
  */
-
 package pt.uc.aor.webservice.entity;
 
 import java.io.Serializable;
@@ -13,9 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -47,29 +43,30 @@ public class Client implements Serializable {
     @Basic(optional = false)
     @Column(name = "idClient")
     private Long idClient;
+
     @Size(max = 255)
     @Column(name = "address")
     private String address;
+
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 255)
     @Column(name = "email")
     private String email;
+
     @Size(max = 255)
     @Column(name = "name")
     private String name;
+
     @Size(max = 255)
     @Column(name = "apikey")
     private String apikey;
+
     @Size(max = 255)
     @Column(name = "username")
     private String username;
-    @JoinTable(name = "client_sell", joinColumns = {
-        @JoinColumn(name = "Client_idClient", referencedColumnName = "idClient")}, inverseJoinColumns = {
-        @JoinColumn(name = "sells_idOrder", referencedColumnName = "idOrder")})
-    @ManyToMany
-    private List<Sell> sellList;
+
     @OneToMany(mappedBy = "clientidClient")
-    private List<Sell> sellList1;
+    private List<Sell> sellList;
 
     public Client() {
     }
@@ -125,15 +122,6 @@ public class Client implements Serializable {
 
     public void setSellList(List<Sell> sellList) {
         this.sellList = sellList;
-    }
-
-    @XmlTransient
-    public List<Sell> getSellList1() {
-        return sellList1;
-    }
-
-    public void setSellList1(List<Sell> sellList1) {
-        this.sellList1 = sellList1;
     }
 
     @Override
