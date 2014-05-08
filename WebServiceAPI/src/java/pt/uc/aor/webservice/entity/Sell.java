@@ -2,7 +2,6 @@
  * Projeto 7 -TecnoAPI
  * Elsa Santos & VitorAires  *
  */
-
 package pt.uc.aor.webservice.entity;
 
 import java.io.Serializable;
@@ -16,7 +15,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -40,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Sell.findByActualdate", query = "SELECT s FROM Sell s WHERE s.actualdate = :actualdate"),
     @NamedQuery(name = "Sell.findByDeliverydate", query = "SELECT s FROM Sell s WHERE s.deliverydate = :deliverydate")})
 public class Sell implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,8 +51,6 @@ public class Sell implements Serializable {
     @Column(name = "deliverydate")
     @Temporal(TemporalType.DATE)
     private Date deliverydate;
-    @ManyToMany(mappedBy = "sellList")
-    private List<Client> clientList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sell")
     private List<SellProduct> sellProductList;
     @JoinColumn(name = "Client_idClient", referencedColumnName = "idClient")
@@ -89,15 +86,6 @@ public class Sell implements Serializable {
 
     public void setDeliverydate(Date deliverydate) {
         this.deliverydate = deliverydate;
-    }
-
-    @XmlTransient
-    public List<Client> getClientList() {
-        return clientList;
-    }
-
-    public void setClientList(List<Client> clientList) {
-        this.clientList = clientList;
     }
 
     @XmlTransient

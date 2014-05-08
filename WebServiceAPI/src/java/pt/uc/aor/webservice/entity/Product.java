@@ -2,7 +2,6 @@
  * Projeto 7 -TecnoAPI
  * Elsa Santos & VitorAires  *
  */
-
 package pt.uc.aor.webservice.entity;
 
 import java.io.Serializable;
@@ -38,13 +37,18 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
     @NamedQuery(name = "Product.findByIdProduct", query = "SELECT p FROM Product p WHERE p.idProduct = :idProduct"),
-    @NamedQuery(name = "Product.findByBrand", query = "SELECT p FROM Product p WHERE p.brand = :brand"),
-    @NamedQuery(name = "Product.findByModel", query = "SELECT p FROM Product p WHERE p.model = :model"),
+    @NamedQuery(name = "Product.findByBrand", query = "SELECT p FROM Product p WHERE p.brand LIKE :brand"),
+    @NamedQuery(name = "Product.findByModel", query = "SELECT p FROM Product p WHERE p.model LIKE :model"),
+    @NamedQuery(name = "Product.findByVersion", query = "SELECT p FROM Product p WHERE p.version LIKE :version"),
+    @NamedQuery(name = "Product.findByWord", query = "SELECT p FROM Product p WHERE p.brand LIKE :word OR p.model LIKE :word OR p.version LIKE :word"),
+    @NamedQuery(name = "Product.findByDescription", query = "SELECT p FROM Product p WHERE p.description LIKE :description"),
     @NamedQuery(name = "Product.findByPrice", query = "SELECT p FROM Product p WHERE p.price = :price"),
     @NamedQuery(name = "Product.findByQuantity", query = "SELECT p FROM Product p WHERE p.quantity = :quantity"),
     @NamedQuery(name = "Product.findByRepositiondate", query = "SELECT p FROM Product p WHERE p.repositiondate = :repositiondate"),
-    @NamedQuery(name = "Product.findByVersion", query = "SELECT p FROM Product p WHERE p.version = :version")})
+    @NamedQuery(name = "Product.findByCategoriaName", query = "SELECT p FROM Product p WHERE p.idCategory.category LIKE :word"),
+    @NamedQuery(name = "Product.findByCategoriaidCategoria", query = "SELECT p FROM Product p WHERE p.idCategory = :categoria")})
 public class Product implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
