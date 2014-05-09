@@ -2,7 +2,6 @@
  * Projeto 7 -TecnoAPI
  * Elsa Santos & VitorAires  *
  */
-
 package pt.uc.aor.webservice.entity;
 
 import java.io.Serializable;
@@ -28,9 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SellProduct.findAll", query = "SELECT s FROM SellProduct s"),
-    @NamedQuery(name = "SellProduct.findByQuantity", query = "SELECT s FROM SellProduct s WHERE s.quantity = :quantity"),
-    @NamedQuery(name = "SellProduct.findBySellProduct", query = "SELECT s FROM SellProduct s WHERE s.product.idProduct = :idProduct and s.sell.idOrder=:idOrder")
-})
+    @NamedQuery(name = "SellProduct.findBySellProduct", query = "SELECT s FROM SellProduct s WHERE s.product.idProduct = :idProduct and s.sell.idOrder=:idOrder"),
+    @NamedQuery(name = "SellProduct.findBySell", query = "SELECT s FROM SellProduct s WHERE s.sell = :sell"),
+    @NamedQuery(name = "SellProduct.findByQuantity", query = "SELECT s FROM SellProduct s WHERE s.quantity = :quantity")})
 public class SellProduct implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,11 +38,14 @@ public class SellProduct implements Serializable {
     @Basic(optional = false)
     @Column(name = "idSellProduct")
     private Long idSellProduct;
+
     @Column(name = "quantity")
     private Integer quantity;
+
     @JoinColumn(name = "Sell_idOrder", referencedColumnName = "idOrder", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Sell sell;
+
     @JoinColumn(name = "productCollection_idProduct", referencedColumnName = "idProduct", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Product product;

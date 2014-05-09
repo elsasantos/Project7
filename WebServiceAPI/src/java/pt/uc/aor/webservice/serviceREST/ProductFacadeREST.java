@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -106,14 +107,14 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
     @Path("category/{idCategory}")
     @Produces({"application/json"})
     public List<Product> findByCategory(@PathParam("idCategory") Long idCategory) {
-        List<Product> p = null;
+        List<Product> p = new ArrayList<>();
         try {
             Category c = cf.find(idCategory);
-            return p = em.createNamedQuery("Product.findByCategoriaidCategoria").setParameter("categoria", c).getResultList();
+            p = em.createNamedQuery("Product.findByCategoriaidCategoria").setParameter("categoria", c).getResultList();
         } catch (NoResultException ex) {
             //TODO log
         }
-        return p = new ArrayList<>();
+        return p;
     }
 
     /**
@@ -127,7 +128,7 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
     @Path("search/{column}/{word}")
     @Produces({"application/json"})
     public List<Product> searchByProduct(@PathParam("column") String column, @PathParam("word") String word) {
-        List<Product> p = null;
+        List<Product> p = new ArrayList<>();
         try {
             if (column.equals("Designation")) {
                 p = em.createNamedQuery("Product.findByWord").setParameter("word", "%" + word + "%").getResultList();
@@ -138,11 +139,34 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
             if (column.equals("Description")) {
                 p = em.createNamedQuery("Product.findByDescription").setParameter("description", "%" + word + "%").getResultList();
             }
-            return p;
         } catch (NoResultException ex) {
             //TODO log
-            return p = new ArrayList<>();
         }
+        return p;
+    }
+
+    /**
+     * Lista os detalhes do produto segundo os atributos da designação
+     *
+     * @param brand
+     * @param model
+     * @param version
+     * @return
+     */
+    @GET
+    @Path("searchbydesignation/{brand}/{model}/{version}")
+    @Produces({"application/json"})
+    public Product searchByDesignation(@PathParam("brand") String brand, @PathParam("model") String model, @PathParam("version") String version) {
+        TypedQuery<Product> q;
+        Product p = null;
+        try {
+            q = em.createQuery("Product.findByDesignation", Product.class);
+            q.setParameter("brand", "%" + brand + "%").setParameter("model", "%" + model + "%").setParameter("version", "%" + version + "%");
+            p = q.getSingleResult();
+        } catch (NoResultException ex) {
+            //TODO log
+        }
+        return p;
     }
 
 }
