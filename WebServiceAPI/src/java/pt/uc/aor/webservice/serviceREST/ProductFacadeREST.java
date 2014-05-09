@@ -106,14 +106,14 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
     @Path("category/{idCategory}")
     @Produces({"application/json"})
     public List<Product> findByCategory(@PathParam("idCategory") Long idCategory) {
-        List<Product> p = null;
+        List<Product> p = new ArrayList<>();
         try {
             Category c = cf.find(idCategory);
-            return p = em.createNamedQuery("Product.findByCategoriaidCategoria").setParameter("categoria", c).getResultList();
+            p = em.createNamedQuery("Product.findByCategoriaidCategoria").setParameter("categoria", c).getResultList();
         } catch (NoResultException ex) {
             //TODO log
         }
-        return p = new ArrayList<>();
+        return p;
     }
 
     /**
@@ -127,7 +127,7 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
     @Path("search/{column}/{word}")
     @Produces({"application/json"})
     public List<Product> searchByProduct(@PathParam("column") String column, @PathParam("word") String word) {
-        List<Product> p = null;
+        List<Product> p = new ArrayList<>();
         try {
             if (column.equals("Designation")) {
                 p = em.createNamedQuery("Product.findByWord").setParameter("word", "%" + word + "%").getResultList();
@@ -138,11 +138,10 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
             if (column.equals("Description")) {
                 p = em.createNamedQuery("Product.findByDescription").setParameter("description", "%" + word + "%").getResultList();
             }
-            return p;
         } catch (NoResultException ex) {
             //TODO log
-            return p = new ArrayList<>();
         }
+        return p;
     }
 
 }
