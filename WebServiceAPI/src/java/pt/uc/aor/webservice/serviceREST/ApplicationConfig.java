@@ -34,6 +34,7 @@ public class ApplicationConfig extends Application {
         resources.add(pt.uc.aor.webservice.serviceREST.ClientFacadeREST.class);
         resources.add(pt.uc.aor.webservice.serviceREST.ProductFacadeREST.class);
         resources.add(pt.uc.aor.webservice.serviceREST.SellFacadeREST.class);
+        resources.add(pt.uc.aor.webservice.serviceREST.SellProductFacadeREST.class);
     }
 
 }
