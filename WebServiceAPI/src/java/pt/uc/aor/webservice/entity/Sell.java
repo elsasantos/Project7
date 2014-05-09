@@ -36,7 +36,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Sell.findAll", query = "SELECT s FROM Sell s"),
     @NamedQuery(name = "Sell.findByIdOrder", query = "SELECT s FROM Sell s WHERE s.idOrder = :idOrder"),
     @NamedQuery(name = "Sell.findByActualdate", query = "SELECT s FROM Sell s WHERE s.actualdate = :actualdate"),
-    @NamedQuery(name = "Sell.findByDeliverydate", query = "SELECT s FROM Sell s WHERE s.deliverydate = :deliverydate")})
+    @NamedQuery(name = "Sell.findByDeliverydate", query = "SELECT s FROM Sell s WHERE s.deliverydate = :deliverydate"),
+    @NamedQuery(name = "Sell.findByidClient", query = "SELECT s FROM Sell s WHERE s.clientidClient = :idClient"),})
 public class Sell implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,14 +46,18 @@ public class Sell implements Serializable {
     @Basic(optional = false)
     @Column(name = "idOrder")
     private Long idOrder;
+
     @Column(name = "actualdate")
     @Temporal(TemporalType.DATE)
     private Date actualdate;
+
     @Column(name = "deliverydate")
     @Temporal(TemporalType.DATE)
     private Date deliverydate;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sell")
     private List<SellProduct> sellProductList;
+
     @JoinColumn(name = "Client_idClient", referencedColumnName = "idClient")
     @ManyToOne
     private Client clientidClient;

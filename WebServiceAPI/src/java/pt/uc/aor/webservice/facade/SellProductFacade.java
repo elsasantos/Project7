@@ -2,12 +2,16 @@
  * Projeto 7 -TecnoAPI
  * Elsa Santos & VitorAires  *
  */
-
 package pt.uc.aor.webservice.facade;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import pt.uc.aor.webservice.entity.Sell;
 import pt.uc.aor.webservice.entity.SellProduct;
 
 /**
@@ -16,6 +20,9 @@ import pt.uc.aor.webservice.entity.SellProduct;
  */
 @Stateless
 public class SellProductFacade extends AbstractFacade<SellProduct> {
+
+    @Inject
+    private SellFacade sellfacade;
 
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
@@ -27,6 +34,24 @@ public class SellProductFacade extends AbstractFacade<SellProduct> {
 
     public SellProductFacade() {
         super(SellProduct.class);
+    }
+
+//MÉTODOS CRIADOS PARA A API:
+    /**
+     * Mostra os detalhes da encomenda X pelo id da mesma
+     *
+     * @param idSell
+     * @return
+     */
+    public List<SellProduct> detailSell(Long idSell) {
+        List<SellProduct> sp = new ArrayList<>();
+        try {
+            Sell s = sellfacade.find(idSell);
+            sp = em.createNamedQuery("SellProduct.findBySell").setParameter("sell", s).getResultList();
+        } catch (NoResultException ex) {
+            //TODO log
+        }
+        return sp;
     }
 
 }
