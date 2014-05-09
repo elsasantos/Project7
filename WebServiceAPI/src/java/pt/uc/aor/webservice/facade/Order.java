@@ -38,7 +38,7 @@ public class Order {
     @Inject
     private SellProductFacade spf;
 
-    private void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
+    public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
         Client buyer;
         if (cf.existApi(apkKey)) {
             Sell sell = new Sell();
@@ -61,7 +61,6 @@ public class Order {
                 sf.edit(sell);
                 pf.edit(product);
                 spf.edit(sellProduct);
-
             }
             cf.edit(buyer);
         } else {
@@ -74,10 +73,35 @@ public class Order {
     public void removeSell(long id, String apkKey) {
         Sell sell = sf.find(id);
         for (SellProduct sellproduct : sell.getSellProductList()) {
+            Product product = pf.find(sellproduct.getProduct().getIdProduct());
+            product.setQuantity(sellproduct.getQuantity());
             spf.remove(spf.find(sellproduct.getIdSellProduct()));
+            pf.edit(product);//merge
         }
         sf.remove(sell);
+    }
 
+    public void removeProductSell(long idProduct, long idSell, String apkKey) {
+        Sell sell = sf.find(idSell);
+        Product product = pf.find(idProduct);
+        SellProduct sellProduct = spf.searchByProductSell(idProduct, idSell);
+        //Atualizar o Stock
+        product.setQuantity(product.getQuantity() + sellProduct.getQuantity());
+        //remover
+        spf.remove(sellProduct);
+
+    }
+
+    public void editProductSell(long idProduct, long idSell, String apkKey, int quantity) {
+        Sell sell = sf.find(idSell);
+        Product product = pf.find(idProduct);
+        SellProduct sellProduct = spf.searchByProductSell(idProduct, idSell);
+        //Atualizar o Stock
+        product.setQuantity(product.getQuantity() + sellProduct.getQuantity());
+        product.setQuantity(quantity);
+        pf.edit(product);
+        spf.edit(sellProduct);
+        //remover
     }
 
 }
