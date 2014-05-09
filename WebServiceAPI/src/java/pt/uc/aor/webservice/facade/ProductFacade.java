@@ -8,9 +8,11 @@ package pt.uc.aor.webservice.facade;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import pt.uc.aor.webservice.entity.Category;
 import pt.uc.aor.webservice.entity.Product;
 
 /**
@@ -23,6 +25,9 @@ public class ProductFacade extends AbstractFacade<Product> {
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
 
+    @Inject
+    CategoryFacade cf;
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -32,19 +37,15 @@ public class ProductFacade extends AbstractFacade<Product> {
         super(Product.class);
     }
 
-    //MÉTODOS CRIADOS PARA A API:
-    /**
-     * Lista os produtos por categoria
-     *
-     * @param idCategory
-     * @return
-     */
     public List<Product> findByCategory(Long idCategory) {
+        log.info("Product.findByCategoriaidCategoria(" + idCategory + ")");
         List<Product> p = null;
+
         try {
-            return p = em.createNamedQuery("Product.findByCategoriaidCategoria").setParameter("categoria", idCategory).getResultList();
+            Category c = cf.find(idCategory);
+            return p = em.createNamedQuery("Product.findByCategoriaidCategoria").setParameter("categoria", c).getResultList();
         } catch (NoResultException ex) {
-            //TODO log
+            log.info("Não encontrou nenhum Categoria'" + idCategory + "'.");
         }
         return p = new ArrayList<>();
     }
@@ -54,24 +55,27 @@ public class ProductFacade extends AbstractFacade<Product> {
      *
      * @param column
      * @param word
-     * @return
+     * @return //
      */
-    public List<Product> searchByProduct(String word, String column) {
-        List<Product> p = null;
+    public List<Product> searchByProduct(String column, String word) {
+        log.info("Product.Product.findByWord(" + word + ")");
+        List<Product> p = new ArrayList<>();
         try {
             if (column.equals("Designation")) {
                 p = em.createNamedQuery("Product.findByWord").setParameter("word", "%" + word + "%").getResultList();
+
             }
             if (column.equals("Category")) {
-                p = em.createNamedQuery("Product.findByCategoriaName").setParameter("category", "%" + word + "%").getResultList();
+                p = em.createNamedQuery("Product.findByCategoriaName").setParameter("word", "%" + word + "%").getResultList();
             }
             if (column.equals("Description")) {
                 p = em.createNamedQuery("Product.findByDescription").setParameter("description", "%" + word + "%").getResultList();
             }
-            return p;
+
         } catch (NoResultException ex) {
-            //TODO log
-            return p = new ArrayList<>();
+            log.info("Não encontrou nenhum Produto '" + word + "'.");
         }
+        return p;
     }
+
 }
