@@ -82,7 +82,7 @@ public class SellProduct implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idSellProduct != null ? idSellProduct.hashCode() : 0);
+        hash += (getIdSellProduct() != null ? getIdSellProduct().hashCode() : 0);
         return hash;
     }
 
@@ -93,7 +93,7 @@ public class SellProduct implements Serializable {
             return false;
         }
         SellProduct other = (SellProduct) object;
-        if ((this.idSellProduct == null && other.idSellProduct != null) || (this.idSellProduct != null && !this.idSellProduct.equals(other.idSellProduct))) {
+        if ((this.getIdSellProduct() == null && other.getIdSellProduct() != null) || (this.getIdSellProduct() != null && !this.idSellProduct.equals(other.idSellProduct))) {
             return false;
         }
         return true;
@@ -101,7 +101,21 @@ public class SellProduct implements Serializable {
 
     @Override
     public String toString() {
-        return "pt.uc.aor.webservice.entity.SellProduct[ sellProductPK=" + idSellProduct + " ]";
+        return "pt.uc.aor.webservice.entity.SellProduct[ sellProductPK=" + getIdSellProduct() + " ]";
+    }
+
+    /**
+     * @return the idSellProduct
+     */
+    public Long getIdSellProduct() {
+        return idSellProduct;
+    }
+
+    /**
+     * @param idSellProduct the idSellProduct to set
+     */
+    public void setIdSellProduct(Long idSellProduct) {
+        this.idSellProduct = idSellProduct;
     }
 
 }
