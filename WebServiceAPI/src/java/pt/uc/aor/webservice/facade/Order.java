@@ -22,7 +22,7 @@ import pt.uc.aor.webservice.entity.SellProduct;
  * @author Aires
  */
 @Stateless
-public class MakingSell {
+public class Order {
 
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
