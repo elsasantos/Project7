@@ -6,6 +6,7 @@
 package pt.uc.aor.webservice.serviceREST;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -20,10 +21,15 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.apache.commons.logging.Log;
 import pt.uc.aor.webservice.entity.Client;
 import pt.uc.aor.webservice.entity.Sell;
 import pt.uc.aor.webservice.entity.SellProduct;
 import pt.uc.aor.webservice.facade.ClientFacade;
+import pt.uc.aor.webservice.facade.Order;
+import pt.uc.aor.webservice.facade.ProductFacade;
+import pt.uc.aor.webservice.facade.SellFacade;
+import pt.uc.aor.webservice.facade.SellProductFacade;
 
 /**
  *
@@ -33,8 +39,17 @@ import pt.uc.aor.webservice.facade.ClientFacade;
 @Path("sell")
 public class SellFacadeREST extends AbstractFacade<Sell> {
 
+    Log log;
     @Inject
-    private ClientFacade cf;
+    private Order order;
+    @Inject
+    private ClientFacade clientFacade;
+    @Inject
+    private ProductFacade productFacade;
+    @Inject
+    private SellFacade sellFacade;
+    @Inject
+    private SellProductFacade sellProductFacade;
 
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
@@ -115,7 +130,7 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
     public List<Sell> sellByUser(@PathParam("idUser") Long idUser) {
         List<Sell> s = new ArrayList<>();
         try {
-            Client c = cf.find(idUser);
+            Client c = clientFacade.find(idUser);
             s = em.createNamedQuery("Sell.findByidClient").setParameter("idClient", c).getResultList();
         } catch (NoResultException ex) {
             //TODO log
@@ -136,11 +151,16 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
         List<SellProduct> s = new ArrayList<>();
         try {
             s = find(idSell).getSellProductList();
-
         } catch (NoResultException ex) {
             //TODO log
         }
         return s;
     }
 
+    @POST
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    private void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
+        order.makeSell(hashmap, apkKey);
+    }
 }

@@ -2,7 +2,6 @@
  * Projeto 7 -TecnoAPI
  * Elsa Santos & VitorAires  *
  */
-
 package pt.uc.aor.webservice.facade;
 
 import java.util.Date;
@@ -38,7 +37,7 @@ public class Order {
     @Inject
     private SellProductFacade spf;
 
-    private void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
+    public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
         Client buyer;
         if (cf.existApi(apkKey)) {
             Sell sell = new Sell();
@@ -58,9 +57,13 @@ public class Order {
                 SellProduct sellProduct = new SellProduct(hashmap.get(idproduto), sell, product);
                 sell.getSellProductList().add(sellProduct);
                 product.getSellProductList().add(sellProduct);
+
                 sf.edit(sell);
+                sf.getEntityManager().persist(sell);
                 pf.edit(product);
+                pf.getEntityManager().persist(product);
                 spf.edit(sellProduct);
+                spf.getEntityManager().persist(sellProduct);
 
             }
             cf.edit(buyer);

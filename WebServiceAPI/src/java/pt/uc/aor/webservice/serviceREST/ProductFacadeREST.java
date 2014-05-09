@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -138,6 +139,30 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
             if (column.equals("Description")) {
                 p = em.createNamedQuery("Product.findByDescription").setParameter("description", "%" + word + "%").getResultList();
             }
+        } catch (NoResultException ex) {
+            //TODO log
+        }
+        return p;
+    }
+
+    /**
+     * Lista os detalhes do produto segundo os atributos da designação
+     *
+     * @param brand
+     * @param model
+     * @param version
+     * @return
+     */
+    @GET
+    @Path("searchbydesignation/{brand}/{model}/{version}")
+    @Produces({"application/json"})
+    public Product searchByDesignation(@PathParam("brand") String brand, @PathParam("model") String model, @PathParam("version") String version) {
+        TypedQuery<Product> q;
+        Product p = null;
+        try {
+            q = em.createQuery("Product.findByDesignation", Product.class);
+            q.setParameter("brand", "%" + brand + "%").setParameter("model", "%" + model + "%").setParameter("version", "%" + version + "%");
+            p = q.getSingleResult();
         } catch (NoResultException ex) {
             //TODO log
         }
