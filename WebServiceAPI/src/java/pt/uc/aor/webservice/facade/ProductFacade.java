@@ -81,7 +81,7 @@ public class ProductFacade extends AbstractFacade<Product> {
      * @return //
      */
     public List<Product> searchByProduct(String column, String word) {
-        log.info("Product.Product.findByWord(" + word + ")");
+        log.info("Product.findByWord(" + word + ")");
         List<Product> p = new ArrayList<>();
         try {
             if (column.equals("Designation")) {

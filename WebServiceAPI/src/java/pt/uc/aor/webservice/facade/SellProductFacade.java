@@ -59,12 +59,13 @@ public class SellProductFacade extends AbstractFacade<SellProduct> {
      * @return
      */
     public List<SellProduct> detailSell(Long idSell) {
+        log.info("SellProduct.detailSell");
         List<SellProduct> sp = new ArrayList<>();
         try {
             Sell s = sellfacade.find(idSell);
             sp = em.createNamedQuery("SellProduct.findBySell").setParameter("sell", s).getResultList();
         } catch (NoResultException ex) {
-            //TODO log
+            log.info("Não encontrou nenhum Produto na encomenda com o id " + idSell + ".");
         }
         return sp;
     }
