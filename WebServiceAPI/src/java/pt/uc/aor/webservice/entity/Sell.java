@@ -65,8 +65,8 @@ public class Sell implements Serializable {
     public Sell() {
     }
 
-    public Sell(Long idOrder) {
-        this.idOrder = idOrder;
+    public Sell(Client clientidClient) {
+        this.clientidClient = clientidClient;
     }
 
     public Long getIdOrder() {

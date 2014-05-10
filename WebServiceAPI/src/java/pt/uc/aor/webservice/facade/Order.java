@@ -104,4 +104,47 @@ public class Order {
         //remover
     }
 
+    public void addProductSell(long idProduct, long idSell, String apkKey, int quantity) {
+        // a melhorar
+        Sell sell = sf.find(idSell);
+        Product product = pf.find(idProduct);
+        SellProduct sellProduct = spf.searchByProductSell(idProduct, idSell);
+        //Atualizar o Stock
+        product.setQuantity(product.getQuantity() + sellProduct.getQuantity());
+        product.setQuantity(quantity);
+        pf.edit(product);
+        spf.edit(sellProduct);
+        //remover
+    }
+
+    public void makeSellTest(long idCliente, long idproduto, int quantity) {
+        Client buyer;
+
+        buyer = cf.find(idproduto);
+
+        Sell sell = sf.createSellClient(buyer);
+
+        //sell.setActualdate(new Date());
+        //sell.setClientidClient(buyer);
+        Product product = pf.find(idproduto);
+        //atualiza stock
+        product.setQuantity(product.getQuantity() - quantity);
+        // atualiza a data de entrega
+        if (product.getQuantity() < 0) {
+            sell.setDeliverydate(product.getRepositiondate());
+        }
+
+        //sf.getEntityManager().persist(sell);
+        SellProduct sellProduct = spf.createSellProduct(quantity, sell, product);
+        sell.getSellProductList().add(sellProduct);
+        product.getSellProductList().add(sellProduct);
+        //sf.getEntityManager().persist(sell);
+        sf.edit(sell);
+        pf.edit(product);
+
+        spf.edit(sellProduct);
+        cf.edit(buyer);
+
+    }
+
 }

@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.entity.Sell;
 import pt.uc.aor.webservice.entity.SellProduct;
 
@@ -35,6 +36,12 @@ public class SellProductFacade extends AbstractFacade<SellProduct> {
 
     public SellProductFacade() {
         super(SellProduct.class);
+    }
+
+    public SellProduct createSellProduct(int quantity, Sell sell, Product product) {
+        SellProduct sellProduct = new SellProduct(quantity, sell, product);
+        em.persist(sellProduct);
+        return sellProduct;
     }
 
     public SellProduct searchByProductSell(long idProduct, long idSell) {

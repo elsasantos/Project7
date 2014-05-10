@@ -45,7 +45,14 @@ public class SellFacade extends AbstractFacade<Sell> {
 
     }
 
-    //MÉTODOS CRIADOS PARA A API:
+    public Sell createSellClient(Client client) {
+        Sell sell = new Sell(client);
+        em.persist(sell);
+        return sell;
+
+    }
+
+//MÉTODOS CRIADOS PARA A API:
     /**
      * Lista o histórico das encomendas realizadas pelo User
      *
