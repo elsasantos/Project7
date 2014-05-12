@@ -61,13 +61,14 @@ public class SellFacade extends AbstractFacade<Sell> {
      * @param idUser
      * @return
      */
-    public List<Sell> sellByUser(Long idUser) {
+    public List<Sell> sellsByUser(Long idUser) {
+        log.info("Sell.sellsByUser(" + idUser + ")");
         List<Sell> s = new ArrayList<>();
         try {
             Client c = cf.find(idUser);
             s = em.createNamedQuery("Sell.findByidClient").setParameter("idClient", c).getResultList();
         } catch (NoResultException ex) {
-            //TODO log
+            log.info("Não encontrou nenhuma encomenda do user com o Id '" + idUser + "'.");
         }
         return s;
     }
@@ -79,11 +80,12 @@ public class SellFacade extends AbstractFacade<Sell> {
      * @return
      */
     public List<SellProduct> detailBySell(Long idSell) {
+        log.info("Sell.detailsBySell(" + idSell + ")");
         List<SellProduct> s = new ArrayList<>();
         try {
             s = find(idSell).getSellProductList();
         } catch (NoResultException ex) {
-            //TODO log
+            log.info("Não encontrou produtos associados à encomenda com o Id '" + idSell + "'.");
         }
         return s;
     }

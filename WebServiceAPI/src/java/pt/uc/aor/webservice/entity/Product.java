@@ -34,7 +34,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "product")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p WHERE p.quantity>0"),
     @NamedQuery(name = "Product.findByIdProduct", query = "SELECT p FROM Product p WHERE p.idProduct = :idProduct"),
     @NamedQuery(name = "Product.findByBrand", query = "SELECT p FROM Product p WHERE  p.quantity>0 AND  p.brand LIKE :brand"),
     @NamedQuery(name = "Product.findByModel", query = "SELECT p FROM Product p WHERE p.quantity>0 AND  p.model LIKE :model"),
@@ -46,7 +46,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Product.findByQuantity", query = "SELECT p FROM Product p WHERE p.quantity = :quantity"),
     @NamedQuery(name = "Product.findByRepositiondate", query = "SELECT p FROM Product p WHERE p.repositiondate = :repositiondate"),
     @NamedQuery(name = "Product.findByCategoriaName", query = "SELECT p FROM Product p WHERE p.idCategory.category LIKE :word"),
-    @NamedQuery(name = "Product.findByCategoriaidCategoria", query = "SELECT p FROM Product p WHERE p.idCategory = :categoria")})
+    @NamedQuery(name = "Product.findByCategoriaidCategoria", query = "SELECT p FROM Product p WHERE p.quantity>0 AND p.idCategory = :categoria")})
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 1L;

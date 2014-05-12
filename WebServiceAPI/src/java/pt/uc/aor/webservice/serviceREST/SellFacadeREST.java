@@ -5,13 +5,11 @@
  */
 package pt.uc.aor.webservice.serviceREST;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -22,7 +20,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import org.apache.commons.logging.Log;
-import pt.uc.aor.webservice.entity.Client;
 import pt.uc.aor.webservice.entity.Sell;
 import pt.uc.aor.webservice.entity.SellProduct;
 import pt.uc.aor.webservice.facade.ClientFacade;
@@ -58,13 +55,6 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
         super(Sell.class);
     }
 
-    @POST
-    @Override
-    @Consumes({"application/xml", "application/json"})
-    public void create(Sell entity) {
-        super.create(entity);
-    }
-
     @PUT
     @Path("{id}")
     @Consumes({"application/xml", "application/json"})
@@ -72,25 +62,23 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
         super.edit(entity);
     }
 
-    @DELETE
-    @Path("{id}")
-    public void remove(@PathParam("id") Long id) {
-        super.remove(super.find(id));
-    }
-
+//    @DELETE
+//    @Path("{id}")
+//    public void remove(@PathParam("id") Long id) {
+//        super.remove(super.find(id));
+//    }
     /**
      * Mostra os detalhes da encomenda X pelo id da mesma
      *
      * @param id
      * @return
      */
-    @GET
-    @Path("{id}")
-    @Produces({"application/xml", "application/json"})
-    public Sell find(@PathParam("id") Long id) {
-        return super.find(id);
-    }
-
+//    @GET
+//    @Path("{id}")
+//    @Produces({"application/xml", "application/json"})
+//    public Sell find(@PathParam("id") Long id) {
+//        return super.find(id);
+//    }
     @GET
     @Override
     @Produces({"application/xml", "application/json"})
@@ -119,6 +107,31 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
 
     //MÉTODOS CRIADOS PARA A API:
     /**
+     * Cria uma nova encomenda
+     *
+     * @param hashmap
+     * @param apkKey
+     */
+    @POST
+    @Consumes({"application/json"})
+    @Produces({"application/json"})
+    public void createSell(HashMap<Integer, Integer> hashmap, String apkKey) {
+        order.makeSell(hashmap, apkKey);
+    }
+
+    /**
+     * Elimina/Cancela a encomenda em curso
+     *
+     * @param idSell
+     * @param apkKey
+     */
+    @DELETE
+    @Path("{idSell}")
+    public void removeSell(@PathParam("idSell") Long idSell, String apkKey) {
+        order.removeSell(idSell, apkKey);
+    }
+
+    /**
      * Lista o histórico das encomendas realizadas pelo User
      *
      * @param idUser
@@ -127,15 +140,8 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
     @GET
     @Path("sellsUser/{idUser}")
     @Produces({"application/json"})
-    public List<Sell> sellByUser(@PathParam("idUser") Long idUser) {
-        List<Sell> s = new ArrayList<>();
-        try {
-            Client c = clientFacade.find(idUser);
-            s = em.createNamedQuery("Sell.findByidClient").setParameter("idClient", c).getResultList();
-        } catch (NoResultException ex) {
-            //TODO log
-        }
-        return s;
+    public List<Sell> sellsByUser(@PathParam("idUser") Long idUser) {
+        return sellFacade.sellsByUser(idUser);
     }
 
     /**
@@ -145,22 +151,9 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
      * @return
      */
     @GET
-    @Path("detailsSell/{idSell}")
+    @Path("{idSell}")
     @Produces({"application/json"})
     public List<SellProduct> detailBySell(@PathParam("idSell") Long idSell) {
-        List<SellProduct> s = new ArrayList<>();
-        try {
-            s = find(idSell).getSellProductList();
-        } catch (NoResultException ex) {
-            //TODO log
-        }
-        return s;
-    }
-
-    @POST
-    @Consumes({"application/json"})
-    @Produces({"application/json"})
-    private void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
-        order.makeSell(hashmap, apkKey);
+        return sellFacade.detailBySell(idSell);
     }
 }

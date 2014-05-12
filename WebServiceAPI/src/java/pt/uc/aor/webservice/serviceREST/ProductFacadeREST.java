@@ -5,14 +5,11 @@
  */
 package pt.uc.aor.webservice.serviceREST;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,9 +18,9 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import pt.uc.aor.webservice.entity.Category;
 import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.facade.CategoryFacade;
+import pt.uc.aor.webservice.facade.ProductFacade;
 
 /**
  *
@@ -34,7 +31,9 @@ import pt.uc.aor.webservice.facade.CategoryFacade;
 public class ProductFacadeREST extends AbstractFacade<Product> {
 
     @Inject
-    private CategoryFacade cf;
+    private CategoryFacade categoryFacade;
+    @Inject
+    private ProductFacade productFacade;
 
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
@@ -64,20 +63,6 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
     }
 
     @GET
-    @Path("{id}")
-    @Produces({"application/xml", "application/json"})
-    public Product find(@PathParam("id") Long id) {
-        return super.find(id);
-    }
-
-    @GET
-    @Override
-    @Produces({"application/xml", "application/json"})
-    public List<Product> findAll() {
-        return super.findAll();
-    }
-
-    @GET
     @Path("{from}/{to}")
     @Produces({"application/xml", "application/json"})
     public List<Product> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
@@ -98,6 +83,18 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
 
     //MÉTODOS CRIADOS PARA A API:
     /**
+     * Lista todos os produtos existentes na entidade cujo stock é superior a
+     * zero
+     *
+     * @return Lista dos produtos
+     */
+    @GET
+    @Produces({"application/xml", "application/json"})
+    public List<Product> findAllProducts() {
+        return productFacade.findAllProducts();
+    }
+
+    /**
      * Lista os produtos por categoria
      *
      * @param idCategory
@@ -106,15 +103,8 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
     @GET
     @Path("category/{idCategory}")
     @Produces({"application/json"})
-    public List<Product> findByCategory(@PathParam("idCategory") Long idCategory) {
-        List<Product> p = new ArrayList<>();
-        try {
-            Category c = cf.find(idCategory);
-            p = em.createNamedQuery("Product.findByCategoriaidCategoria").setParameter("categoria", c).getResultList();
-        } catch (NoResultException ex) {
-            //TODO log
-        }
-        return p;
+    public List<Product> findProductByCategory(@PathParam("idCategory") Long idCategory) {
+        return productFacade.findProductByCategory(idCategory);
     }
 
     /**
@@ -128,21 +118,20 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
     @Path("search/{column}/{word}")
     @Produces({"application/json"})
     public List<Product> searchByProduct(@PathParam("column") String column, @PathParam("word") String word) {
-        List<Product> p = new ArrayList<>();
-        try {
-            if (column.equals("Designation")) {
-                p = em.createNamedQuery("Product.findByWord").setParameter("word", "%" + word + "%").getResultList();
-            }
-            if (column.equals("Category")) {
-                p = em.createNamedQuery("Product.findByCategoriaName").setParameter("word", "%" + word + "%").getResultList();
-            }
-            if (column.equals("Description")) {
-                p = em.createNamedQuery("Product.findByDescription").setParameter("description", "%" + word + "%").getResultList();
-            }
-        } catch (NoResultException ex) {
-            //TODO log
-        }
-        return p;
+        return productFacade.searchByProduct(column, word);
+    }
+
+    /**
+     * Lista os detalhes de um determinado produto pelo seu Id
+     *
+     * @param id
+     * @return
+     */
+    @GET
+    @Path("{id}")
+    @Produces({"application/json"})
+    public Product findProductById(@PathParam("id") Long id) {
+        return productFacade.findProductById(id);
     }
 
     /**
@@ -154,19 +143,9 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
      * @return
      */
     @GET
-    @Path("searchbydesignation/{brand}/{model}/{version}")
+    @Path("findDesignation/{brand}/{model}/{version}")
     @Produces({"application/json"})
-    public Product searchByDesignation(@PathParam("brand") String brand, @PathParam("model") String model, @PathParam("version") String version) {
-        TypedQuery<Product> q;
-        Product p = null;
-        try {
-            q = em.createQuery("Product.findByDesignation", Product.class);
-            q.setParameter("brand", "%" + brand + "%").setParameter("model", "%" + model + "%").setParameter("version", "%" + version + "%");
-            p = q.getSingleResult();
-        } catch (NoResultException ex) {
-            //TODO log
-        }
-        return p;
+    public Product findProductByDesignation(@PathParam("brand") String brand, @PathParam("model") String model, @PathParam("version") String version) {
+        return productFacade.findProductByDesignation(brand, model, version);
     }
-
 }
