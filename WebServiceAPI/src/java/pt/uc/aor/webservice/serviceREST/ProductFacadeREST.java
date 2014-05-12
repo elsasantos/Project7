@@ -103,7 +103,7 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
     @GET
     @Path("category/{idCategory}")
     @Produces({"application/json"})
-    public List<Product> findByCategory(@PathParam("idCategory") Long idCategory) {
+    public List<Product> findProductByCategory(@PathParam("idCategory") Long idCategory) {
         return productFacade.findProductByCategory(idCategory);
     }
 
@@ -145,7 +145,7 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
     @GET
     @Path("findDesignation/{brand}/{model}/{version}")
     @Produces({"application/json"})
-    public Product searchByDesignation(@PathParam("brand") String brand, @PathParam("model") String model, @PathParam("version") String version) {
+    public Product findProductByDesignation(@PathParam("brand") String brand, @PathParam("model") String model, @PathParam("version") String version) {
         return productFacade.findProductByDesignation(brand, model, version);
     }
 }

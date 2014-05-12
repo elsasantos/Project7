@@ -140,7 +140,7 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
     @GET
     @Path("sellsUser/{idUser}")
     @Produces({"application/json"})
-    public List<Sell> sellByUser(@PathParam("idUser") Long idUser) {
+    public List<Sell> sellsByUser(@PathParam("idUser") Long idUser) {
         return sellFacade.sellsByUser(idUser);
     }
 
