@@ -41,6 +41,7 @@ public class Order {
         log.info("Order.makeSell(" + apkKey + ")");
         Client buyer;
         if (cf.existApi(apkKey)) {
+
             Sell sell = new Sell();
             sell.setActualdate(new Date());
             buyer = cf.findClientByApi(apkKey);
@@ -118,13 +119,14 @@ public class Order {
     }
 
     public void makeSellTest(long idCliente, long idproduto, int quantity) {
+
         Client buyer;
 
         buyer = cf.find(idCliente);
 
         Sell sell = sf.createSellClient(buyer);
 
-        //sell.setActualdate(new Date());
+        sell.setActualdate(new Date());
         //sell.setClientidClient(buyer);
         Product product = pf.find(idproduto);
         //atualiza stock
@@ -139,12 +141,14 @@ public class Order {
 //        sell.getSellProductList().add(sellProduct);
         product.getSellProductList().add(sellProduct);
         sell.getSellProductList().add(sellProduct);
-        //sf.getEntityManager().persist(sell);
+        buyer.getSellList().add(sell);
+
         sf.edit(sell);
         pf.edit(product);
 
-        spf.edit(sellProduct);
         cf.edit(buyer);
+        spf.edit(sellProduct);
+        spf.getEntityManager().persist(sellProduct);
         System.out.println("Presto");
     }
 
