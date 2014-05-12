@@ -8,6 +8,7 @@ package pt.uc.aor.webservice.API;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
@@ -27,9 +28,13 @@ import pt.uc.aor.webservice.facade.SellProductFacade;
 @Stateless
 public class SOAP implements APInterface {
 
+    @Inject
     private ProductFacade productf;
+    @Inject
     private Order order;
+    @Inject
     private SellFacade sellf;
+    @Inject
     private SellProductFacade sellproductf;
 
     public SOAP() {
