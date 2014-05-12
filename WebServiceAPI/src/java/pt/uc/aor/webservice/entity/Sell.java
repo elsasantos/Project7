@@ -7,7 +7,6 @@ package pt.uc.aor.webservice.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,14 +35,14 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Sell.findAll", query = "SELECT s FROM Sell s"),
     @NamedQuery(name = "Sell.findByIdOrder", query = "SELECT s FROM Sell s WHERE s.idOrder = :idOrder"),
     @NamedQuery(name = "Sell.findByActualdate", query = "SELECT s FROM Sell s WHERE s.actualdate = :actualdate"),
-    @NamedQuery(name = "Sell.findByDeliverydate", query = "SELECT s FROM Sell s WHERE s.deliverydate = :deliverydate"),
-    @NamedQuery(name = "Sell.findByidClient", query = "SELECT s FROM Sell s WHERE s.clientidClient = :idClient"),})
+    @NamedQuery(name = "Sell.findByDeliverydate", query = "SELECT s FROM Sell s WHERE s.deliverydate = :deliverydate"), //    @NamedQuery(name = "Sell.findByidClient", query = "SELECT s FROM Sell s WHERE s.clientidClient = :idClient"),
+})
 public class Sell implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+
     @Column(name = "idOrder")
     private Long idOrder;
 
@@ -58,15 +57,17 @@ public class Sell implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "sell")
     private List<SellProduct> sellProductList;
 
-    @JoinColumn(name = "Client_idClient", referencedColumnName = "idClient")
+    @JoinColumn(name = "clientidClient", referencedColumnName = "idClient")
     @ManyToOne
     private Client clientidClient;
 
     public Sell() {
+
     }
 
     public Sell(Client clientidClient) {
         this.clientidClient = clientidClient;
+
     }
 
     public Long getIdOrder() {
@@ -134,5 +135,4 @@ public class Sell implements Serializable {
     public String toString() {
         return "pt.uc.aor.webservice.entity.Sell[ idOrder=" + idOrder + " ]";
     }
-
 }

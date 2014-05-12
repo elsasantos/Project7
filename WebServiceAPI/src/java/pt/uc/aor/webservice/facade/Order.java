@@ -44,7 +44,7 @@ public class Order {
             Sell sell = new Sell();
             sell.setActualdate(new Date());
             buyer = cf.findClientByApi(apkKey);
-            sell.setClientidClient(buyer);
+//            sell.setClientidClient(buyer);
             Product product;
             for (Integer idproduto : hashmap.keySet()) {
                 product = pf.find(idproduto);
@@ -56,7 +56,7 @@ public class Order {
                 }
 
                 SellProduct sellProduct = new SellProduct(hashmap.get(idproduto), sell, product);
-                sell.getSellProductList().add(sellProduct);
+//                sell.getSellProductList().add(sellProduct);
                 product.getSellProductList().add(sellProduct);
                 sf.edit(sell);
                 pf.edit(product);
@@ -72,12 +72,12 @@ public class Order {
 
     public void removeSell(long id, String apkKey) {
         Sell sell = sf.find(id);
-        for (SellProduct sellproduct : sell.getSellProductList()) {
-            Product product = pf.find(sellproduct.getProduct().getIdProduct());
-            product.setQuantity(sellproduct.getQuantity());
-            spf.remove(spf.find(sellproduct.getIdSellProduct()));
-            pf.edit(product);//merge
-        }
+//        for (SellProduct sellproduct : sell.getSellProductList()) {
+//            Product product = pf.find(sellproduct.getProduct().getIdProduct());
+//            product.setQuantity(sellproduct.getQuantity());
+//            spf.remove(spf.find(sellproduct.getIdSellProduct()));
+//            pf.edit(product);//merge
+//        }
         sf.remove(sell);
     }
 
@@ -120,7 +120,7 @@ public class Order {
     public void makeSellTest(long idCliente, long idproduto, int quantity) {
         Client buyer;
 
-        buyer = cf.find(idproduto);
+        buyer = cf.find(idCliente);
 
         Sell sell = sf.createSellClient(buyer);
 
@@ -136,15 +136,16 @@ public class Order {
 
         //sf.getEntityManager().persist(sell);
         SellProduct sellProduct = spf.createSellProduct(quantity, sell, product);
-        sell.getSellProductList().add(sellProduct);
+//        sell.getSellProductList().add(sellProduct);
         product.getSellProductList().add(sellProduct);
+        sell.getSellProductList().add(sellProduct);
         //sf.getEntityManager().persist(sell);
         sf.edit(sell);
         pf.edit(product);
 
         spf.edit(sellProduct);
         cf.edit(buyer);
-
+        System.out.println("Presto");
     }
 
 }

@@ -47,7 +47,9 @@ public class SellFacade extends AbstractFacade<Sell> {
 
     public Sell createSellClient(Client client) {
         Sell sell = new Sell(client);
+
         em.persist(sell);
+        super.create(sell);
         return sell;
 
     }
