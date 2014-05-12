@@ -40,11 +40,11 @@ public class SellProduct implements Serializable {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @JoinColumn(name = "Sell_idOrder", referencedColumnName = "idOrder", insertable = false, updatable = false)
+    @JoinColumn(name = "Sell_idOrder", referencedColumnName = "idOrder")
     @ManyToOne(optional = false)
     private Sell sell;
 
-    @JoinColumn(name = "productCollection_idProduct", referencedColumnName = "idProduct", insertable = false, updatable = false)
+    @JoinColumn(name = "productCollection_idProduct", referencedColumnName = "idProduct")
     @ManyToOne(optional = false)
     private Product product;
 

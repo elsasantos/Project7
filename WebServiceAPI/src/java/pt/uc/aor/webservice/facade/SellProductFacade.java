@@ -40,7 +40,7 @@ public class SellProductFacade extends AbstractFacade<SellProduct> {
 
     public SellProduct createSellProduct(int quantity, Sell sell, Product product) {
         SellProduct sellProduct = new SellProduct(quantity, sell, product);
-        em.persist(sellProduct);
+
         return sellProduct;
     }
 
