@@ -7,11 +7,14 @@ package pt.uc.aor.webservice.API;
 
 import java.util.HashMap;
 import java.util.List;
+import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import org.apache.commons.logging.Log;
+import pt.uc.aor.webservice.entity.Category;
 import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.entity.Sell;
 import pt.uc.aor.webservice.entity.SellProduct;
+import pt.uc.aor.webservice.serviceREST.CategoryFacadeREST;
 import pt.uc.aor.webservice.serviceREST.ProductFacadeREST;
 import pt.uc.aor.webservice.serviceREST.SellFacadeREST;
 import pt.uc.aor.webservice.serviceREST.SellProductFacadeREST;
@@ -22,10 +25,15 @@ import pt.uc.aor.webservice.serviceREST.SellProductFacadeREST;
  */
 public class REST implements APInterface {
 
+    @Inject
     private ProductFacadeREST productf;
+    @Inject
     private SellFacadeREST sellf;
+    @Inject
     private SellProductFacadeREST sellproductf;
     Log log;
+    @Inject
+    private CategoryFacadeREST categoryf;
 
     public REST() {
     }
@@ -54,6 +62,10 @@ public class REST implements APInterface {
     public Product findProductByDesignation(String brand, String model, String version) throws NoResultException {
         log.info("REST -> Product.findProductByDesignatio(brand" + brand + ", model " + model + ")");
         return productf.findProductByDesignation(brand, model, version);
+    }
+
+    public List<Category> findAllCategory() throws NoResultException {
+        return categoryf.findAllCategory();
     }
 
 //Métodos da entidade Sell:

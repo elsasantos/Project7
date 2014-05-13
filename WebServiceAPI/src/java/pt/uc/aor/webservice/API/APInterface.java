@@ -8,6 +8,7 @@ package pt.uc.aor.webservice.API;
 import java.util.HashMap;
 import java.util.List;
 import javax.persistence.NoResultException;
+import pt.uc.aor.webservice.entity.Category;
 import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.entity.Sell;
 import pt.uc.aor.webservice.entity.SellProduct;
@@ -28,6 +29,8 @@ public interface APInterface {
     public Product findProductById(Long id) throws NoResultException;
 
     public Product findProductByDesignation(String brand, String model, String version) throws NoResultException;
+
+    public List<Category> findAllCategory() throws NoResultException;
 
 //Métodos da entidade Sell:
     public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey);

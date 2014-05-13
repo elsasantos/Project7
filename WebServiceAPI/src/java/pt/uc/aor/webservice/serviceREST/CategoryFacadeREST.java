@@ -7,6 +7,7 @@ package pt.uc.aor.webservice.serviceREST;
 
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
@@ -18,6 +19,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import pt.uc.aor.webservice.entity.Category;
+import pt.uc.aor.webservice.facade.CategoryFacade;
 
 /**
  *
@@ -27,6 +29,8 @@ import pt.uc.aor.webservice.entity.Category;
 @Path("category")
 public class CategoryFacadeREST extends AbstractFacade<Category> {
 
+    @Inject
+    private CategoryFacade categoryf;
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
 
@@ -38,7 +42,6 @@ public class CategoryFacadeREST extends AbstractFacade<Category> {
     @Override
     @Consumes({"application/xml", "application/json"})
     public void create(Category entity) {
-        log.info("Create(" + entity + ")");
         super.create(entity);
     }
 
@@ -63,10 +66,9 @@ public class CategoryFacadeREST extends AbstractFacade<Category> {
     }
 
     @GET
-    @Override
     @Produces({"application/xml", "application/json"})
-    public List<Category> findAll() {
-        return super.findAll();
+    public List<Category> findAllCategory() {
+        return categoryf.findAllCategory();
     }
 
     @GET
@@ -79,10 +81,7 @@ public class CategoryFacadeREST extends AbstractFacade<Category> {
     @GET
     @Path("count")
     @Produces("text/plain")
-    public String countREST(String apiKey) {
-        //ver se o utilizador está na bd
-        //se sim faz....else não faze
-
+    public String countREST() {
         return String.valueOf(super.count());
     }
 
