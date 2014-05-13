@@ -39,13 +39,12 @@ public class Order {
 
     public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
         log.info("Order.makeSell(" + apkKey + ")");
-        Client buyer;
-        if (cf.existApi(apkKey)) {
 
-            Sell sell = new Sell();
-            sell.setActualdate(new Date());
+        if (cf.existApi(apkKey)) {
+            Client buyer;
             buyer = cf.findClientByApi(apkKey);
-//            sell.setClientidClient(buyer);
+            Sell sell = sf.createSellClient(buyer);
+            //sell.setActualdate(new Date());
             Product product;
             for (Integer idproduto : hashmap.keySet()) {
                 product = pf.find(idproduto);
@@ -56,14 +55,18 @@ public class Order {
                     sell.setDeliverydate(product.getRepositiondate());
                 }
 
-                SellProduct sellProduct = new SellProduct(hashmap.get(idproduto), sell, product);
-//                sell.getSellProductList().add(sellProduct);
+                SellProduct sellProduct = spf.createSellProduct(hashmap.get(idproduto), sell, product);
                 product.getSellProductList().add(sellProduct);
+                buyer.getSellList().add(sell);
+
                 sf.edit(sell);
                 pf.edit(product);
+
+                cf.edit(buyer);
                 spf.edit(sellProduct);
+                spf.getEntityManager().persist(sellProduct);
             }
-            cf.edit(buyer);
+
         } else {
             System.out.println("Não existe este Api");
 
@@ -121,9 +124,7 @@ public class Order {
     public void makeSellTest(long idCliente, long idproduto, int quantity) {
 
         Client buyer;
-
         buyer = cf.find(idCliente);
-
         Sell sell = sf.createSellClient(buyer);
 
         sell.setActualdate(new Date());
