@@ -89,6 +89,7 @@ public class ProductFacadeREST extends AbstractFacade<Product> {
      * @return Lista dos produtos
      */
     @GET
+    @Path("all")
     @Produces({"application/xml", "application/json"})
     public List<Product> findAllProducts() {
         return productFacade.findAllProducts();

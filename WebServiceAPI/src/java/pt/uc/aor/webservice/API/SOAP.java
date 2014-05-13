@@ -12,9 +12,11 @@ import javax.inject.Inject;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
+import pt.uc.aor.webservice.entity.Category;
 import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.entity.Sell;
 import pt.uc.aor.webservice.entity.SellProduct;
+import pt.uc.aor.webservice.facade.CategoryFacade;
 import pt.uc.aor.webservice.facade.Order;
 import pt.uc.aor.webservice.facade.ProductFacade;
 import pt.uc.aor.webservice.facade.SellFacade;
@@ -36,6 +38,8 @@ public class SOAP implements APInterface {
     private SellFacade sellf;
     @Inject
     private SellProductFacade sellproductf;
+    @Inject
+    private CategoryFacade categoryf;
 
     public SOAP() {
     }
@@ -64,6 +68,11 @@ public class SOAP implements APInterface {
     @WebMethod
     public Product findProductByDesignation(String brand, String model, String version) throws NoResultException {
         return productf.findProductByDesignation(brand, model, version);
+    }
+
+    @WebMethod
+    public List<Category> findAllCategory() {
+        return categoryf.findAll();
     }
 
 //Métodos da entidade Sell:
