@@ -4,7 +4,8 @@
  */
 package pt.uc.aor.webservice.facade;
 
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -122,12 +123,14 @@ public class Order {
     }
 
     public void makeSellTest(long idCliente, long idproduto, int quantity) {
+        GregorianCalendar today;
+        today = (GregorianCalendar) Calendar.getInstance();
 
         Client buyer;
         buyer = cf.find(idCliente);
         Sell sell = sf.createSellClient(buyer);
 
-        sell.setActualdate(new Date());
+        //sell.setActualdate(new Date());
         //sell.setClientidClient(buyer);
         Product product = pf.find(idproduto);
         //atualiza stock

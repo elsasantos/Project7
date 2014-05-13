@@ -8,6 +8,7 @@ package pt.uc.aor.webservice.API;
 import java.util.HashMap;
 import java.util.List;
 import javax.persistence.NoResultException;
+import org.apache.commons.logging.Log;
 import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.entity.Sell;
 import pt.uc.aor.webservice.entity.SellProduct;
@@ -24,62 +25,76 @@ public class REST implements APInterface {
     private ProductFacadeREST productf;
     private SellFacadeREST sellf;
     private SellProductFacadeREST sellproductf;
+    Log log;
 
     public REST() {
     }
 
     //Métodos da entidade Product:
     public List<Product> findAllProducts() throws NoResultException {
+        log.info("REST -> Product.findAllProducts()");
         return productf.findAllProducts();
     }
 
     public List<Product> findProductByCategory(Long idCategory) throws NoResultException {
+        log.info("REST -> Product.findProductByCategory(" + idCategory + ")");
         return productf.findProductByCategory(idCategory);
     }
 
     public List<Product> searchByProduct(String column, String word) throws NoResultException {
+        log.info("REST -> Product.findProductByCategory(Column" + column + ", Word " + word + ")");
         return productf.searchByProduct(column, word);
     }
 
     public Product findProductById(Long id) throws NoResultException {
+        log.info("REST -> Product.findProductByID(Id" + id + ")");
         return productf.findProductById(id);
     }
 
     public Product findProductByDesignation(String brand, String model, String version) throws NoResultException {
+        log.info("REST -> Product.findProductByDesignatio(brand" + brand + ", model " + model + ")");
         return productf.findProductByDesignation(brand, model, version);
     }
 
 //Métodos da entidade Sell:
     public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
+        log.info("REST -> MAKESELL(API" + apkKey + ")");
         sellf.createSell(hashmap, apkKey);
     }
 
     public void removeSell(long id, String apkKey) {
+        log.info("REST -> removeSell(API" + apkKey + ", id" + id + ")");
         sellf.removeSell(id, apkKey);
     }
 
     public List<Sell> sellsByUser(Long idUser) throws NoResultException {
+        log.info("REST -> sellsByUser(id" + idUser + ")");
         return sellf.sellsByUser(idUser);
     }
 
     public List<SellProduct> detailBySell(Long idSell) throws NoResultException {
+        log.info("REST -> detailBySell(id" + idSell + ")");
         return sellf.detailBySell(idSell);
     }
 
 //Métodos da entidade SellProduct:
     public void addProductSell(long idProduct, long idSell, String apkKey, int quantity) {
+        log.info("REST -> addProductSell(id" + idSell + ",idProduct" + apkKey + " )");
         sellproductf.addProductSell(idProduct, idSell, apkKey, quantity);
     }
 
     public void editProductSell(long idProduct, long idSell, String apkKey, int quantity) {
+        log.info("REST -> addProductSell(id" + idSell + ",idProduct" + apkKey + " )");
         sellproductf.editProductSell(idProduct, idSell, apkKey, quantity);
     }
 
     public void removeProductSell(long idProduct, long idSell, String apkKey) {
+        log.info("REST -> removeProductSell(id" + idSell + ",idProduct" + apkKey + " )");
         sellproductf.removeProductSell(idProduct, idSell, apkKey);
     }
 
     public List<SellProduct> detailSell(Long idSell) throws NoResultException {
+        log.info("REST -> removeProductSell(id" + idSell + " )");
         return sellproductf.detailSell(idSell);
     }
 
