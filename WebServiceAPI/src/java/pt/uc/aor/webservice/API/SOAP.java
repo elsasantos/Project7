@@ -72,7 +72,7 @@ public class SOAP implements APInterface {
 
     @WebMethod
     public List<Category> findAllCategory() {
-        return categoryf.findAll();
+        return categoryf.findAllCategory();
     }
 
 //Métodos da entidade Sell:
