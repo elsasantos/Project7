@@ -5,6 +5,7 @@
 package pt.uc.aor.webservice.facade;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import javax.ejb.Stateless;
@@ -40,12 +41,14 @@ public class Order {
 
     public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
         log.info("Order.makeSell(" + apkKey + ")");
+        Date today = new Date();
+        Date dateBuy = new Date(today.getTime() + (1000 * 60 * 60 * 24));
 
         if (cf.existApi(apkKey)) {
             Client buyer;
             buyer = cf.findClientByApi(apkKey);
             Sell sell = sf.createSellClient(buyer);
-            //sell.setActualdate(new Date());
+            sell.setActualdate(dateBuy);
             Product product;
             for (Integer idproduto : hashmap.keySet()) {
                 product = pf.find(idproduto);

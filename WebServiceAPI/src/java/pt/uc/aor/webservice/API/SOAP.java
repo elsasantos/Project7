@@ -49,14 +49,15 @@ public class SOAP implements APInterface {
 
     //Métodos da entidade Product:
     @WebMethod
+    @Override
     public List<Product> findAllProducts() throws NoResultException {
-        log.info("SOAP -> Product.findAllProducts()");
+        //log.info("SOAP -> Product.findAllProducts()");
         return productf.findAllProducts();
     }
 
     @WebMethod
     public List<Product> findProductByCategory(Long idCategory) throws NoResultException {
-        log.info("SOAP -> Product.findProductByCategory(" + idCategory + ")");
+        // log.info("SOAP -> Product.findProductByCategory(" + idCategory + ")");
         return productf.findProductByCategory(idCategory);
     }
 
@@ -80,6 +81,7 @@ public class SOAP implements APInterface {
     }
 
     @WebMethod
+    @Override
     public List<Category> findAllCategory() {
         return categoryf.findAll();
     }
