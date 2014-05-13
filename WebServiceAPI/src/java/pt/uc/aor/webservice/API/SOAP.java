@@ -13,6 +13,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import pt.uc.aor.webservice.entity.Category;
 import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.entity.Sell;
@@ -45,19 +46,20 @@ public class SOAP implements APInterface {
     Log log;
 
     public SOAP() {
+        this.log = LogFactory.getLog(SOAP.class);
     }
 
     //Métodos da entidade Product:
     @WebMethod
     @Override
     public List<Product> findAllProducts() throws NoResultException {
-        //log.info("SOAP -> Product.findAllProducts()");
+        log.info("SOAP -> Product.findAllProducts()");
         return productf.findAllProducts();
     }
 
     @WebMethod
     public List<Product> findProductByCategory(Long idCategory) throws NoResultException {
-        // log.info("SOAP -> Product.findProductByCategory(" + idCategory + ")");
+        log.info("SOAP -> Product.findProductByCategory(" + idCategory + ")");
         return productf.findProductByCategory(idCategory);
     }
 
@@ -83,6 +85,7 @@ public class SOAP implements APInterface {
     @WebMethod
     @Override
     public List<Category> findAllCategory() {
+        log.info("SOAP -> Category.findAllCategory()");
         return categoryf.findAllCategory();
     }
 

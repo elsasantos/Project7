@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
 import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import pt.uc.aor.webservice.entity.Category;
 import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.entity.Sell;
@@ -36,6 +37,7 @@ public class REST implements APInterface {
     private CategoryFacadeREST categoryf;
 
     public REST() {
+        this.log = LogFactory.getLog(REST.class);
     }
 
     //Métodos da entidade Product:
