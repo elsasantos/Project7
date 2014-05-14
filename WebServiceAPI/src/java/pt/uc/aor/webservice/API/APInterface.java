@@ -33,7 +33,7 @@ public interface APInterface {
     public List<Category> findAllCategory() throws NoResultException;
 
 //Métodos da entidade Sell:
-    public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey);
+    public void makeSell(HashMap<Long, Integer> hashmap, String apkKey);
 
     public void removeSell(long id, String apkKey);
 

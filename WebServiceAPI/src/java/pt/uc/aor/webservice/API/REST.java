@@ -71,7 +71,7 @@ public class REST implements APInterface {
     }
 
 //Métodos da entidade Sell:
-    public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
+    public void makeSell(HashMap<Long, Integer> hashmap, String apkKey) {
         log.info("REST -> MAKESELL(API" + apkKey + ")");
         sellf.createSell(hashmap, apkKey);
     }

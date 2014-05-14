@@ -39,7 +39,7 @@ public class Order {
     @Inject
     private SellProductFacade spf;
 
-    public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
+    public void makeSell(HashMap<Long, Integer> hashmap, String apkKey) {
         log.info("Order.makeSell(" + apkKey + ")");
         Date today = new Date();
         Date dateBuy = new Date(today.getTime() + (1000 * 60 * 60 * 24));
@@ -50,7 +50,7 @@ public class Order {
             Sell sell = sf.createSellClient(buyer);
             sell.setActualdate(dateBuy);
             Product product;
-            for (Integer idproduto : hashmap.keySet()) {
+            for (Long idproduto : hashmap.keySet()) {
                 product = pf.find(idproduto);
                 //atualiza stock
                 product.setQuantity(product.getQuantity() - hashmap.get(idproduto));

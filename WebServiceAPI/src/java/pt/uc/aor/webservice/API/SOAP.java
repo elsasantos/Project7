@@ -91,7 +91,7 @@ public class SOAP implements APInterface {
 
 //Métodos da entidade Sell:
     @WebMethod
-    public void makeSell(HashMap<Integer, Integer> hashmap, String apkKey) {
+    public void makeSell(HashMap<Long, Integer> hashmap, String apkKey) {
         log.info("SOAP -> MAKESELL(API" + apkKey + ")");
         order.makeSell(hashmap, apkKey);
     }

@@ -115,7 +115,7 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
     @POST
     @Consumes({"application/json"})
     @Produces({"application/json"})
-    public void createSell(HashMap<Integer, Integer> hashmap, String apkKey) {
+    public void createSell(HashMap<Long, Integer> hashmap, String apkKey) {
         order.makeSell(hashmap, apkKey);
     }
 
