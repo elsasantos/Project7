@@ -5,7 +5,6 @@
  */
 package pt.uc.aor.webservice.API;
 
-import java.util.HashMap;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
@@ -71,9 +70,9 @@ public class REST implements APInterface {
     }
 
 //Métodos da entidade Sell:
-    public void makeSell(HashMap<Long, Integer> hashmap, String apkKey) {
+    public void makeSell(List<Long> idProdutKey, List<Integer> qtd, String apkKey) {
         log.info("REST -> MAKESELL(API" + apkKey + ")");
-        sellf.createSell(hashmap, apkKey);
+        // sellf.createSell(idProdutKey, apkKey);
     }
 
     public void removeSell(long id, String apkKey) {

@@ -44,7 +44,7 @@ public class ClientFacade extends AbstractFacade<Client> {
     }
 
     public Boolean existApi(String api) {
-        log.info("Client.findByApikey(" + api + ")");
+        //log.info("Client.findByApikey(" + api + ")");
         Boolean result = false;
         try {
             Query query = em.createNamedQuery("Client.findByApikey", Client.class).setParameter("apikey", api);

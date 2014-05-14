@@ -5,14 +5,12 @@
 package pt.uc.aor.webservice.facade;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import org.apache.commons.logging.Log;
 import pt.uc.aor.webservice.entity.Client;
 import pt.uc.aor.webservice.entity.Product;
 import pt.uc.aor.webservice.entity.Sell;
@@ -28,8 +26,6 @@ public class Order {
     @PersistenceContext(unitName = "WebServicePU")
     private EntityManager em;
 
-    Log log;
-
     @Inject
     private ClientFacade cf;
     @Inject
@@ -39,27 +35,30 @@ public class Order {
     @Inject
     private SellProductFacade spf;
 
-    public void makeSell(HashMap<Long, Integer> hashmap, String apkKey) {
-        log.info("Order.makeSell(" + apkKey + ")");
-        Date today = new Date();
-        Date dateBuy = new Date(today.getTime() + (1000 * 60 * 60 * 24));
-
+    public void makeSell(List<Long> idProdutKey, List<Integer> qtd, String apkKey) {
+        //   log.info("Order.makeSell(" + apkKey + ")");
+//        Date today = new Date();
+//        Date dateBuy = new Date(today.getTime() + (1000 * 60 * 60 * 24));
+        System.out.println("");
         if (cf.existApi(apkKey)) {
             Client buyer;
             buyer = cf.findClientByApi(apkKey);
             Sell sell = sf.createSellClient(buyer);
-            sell.setActualdate(dateBuy);
+            //sell.setActualdate(dateBuy);
             Product product;
-            for (Long idproduto : hashmap.keySet()) {
-                product = pf.find(idproduto);
+            for (int i = 0; i < idProdutKey.size(); i++) {
+
+                // }
+                // for (Long idproduto : idP) {
+                product = pf.find(idProdutKey.get(i));
                 //atualiza stock
-                product.setQuantity(product.getQuantity() - hashmap.get(idproduto));
+                product.setQuantity(product.getQuantity() - qtd.get(i));
                 // atualiza a data de entrega
                 if (product.getQuantity() < 0) {
                     sell.setDeliverydate(product.getRepositiondate());
                 }
 
-                SellProduct sellProduct = spf.createSellProduct(hashmap.get(idproduto), sell, product);
+                SellProduct sellProduct = spf.createSellProduct(qtd.get(i), sell, product);
                 product.getSellProductList().add(sellProduct);
                 buyer.getSellList().add(sell);
 

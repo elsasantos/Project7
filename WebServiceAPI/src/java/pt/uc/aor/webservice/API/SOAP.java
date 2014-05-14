@@ -5,7 +5,6 @@
  */
 package pt.uc.aor.webservice.API;
 
-import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -91,9 +90,10 @@ public class SOAP implements APInterface {
 
 //Métodos da entidade Sell:
     @WebMethod
-    public void makeSell(HashMap<Long, Integer> hashmap, String apkKey) {
+
+    public void makeSell(List<Long> idProdutKey, List<Integer> qtd, String apkKey) {
         log.info("SOAP -> MAKESELL(API" + apkKey + ")");
-        order.makeSell(hashmap, apkKey);
+        order.makeSell(idProdutKey, qtd, apkKey);
     }
 
     @WebMethod

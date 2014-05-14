@@ -5,7 +5,6 @@
  */
 package pt.uc.aor.webservice.serviceREST;
 
-import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -115,8 +114,8 @@ public class SellFacadeREST extends AbstractFacade<Sell> {
     @POST
     @Consumes({"application/json"})
     @Produces({"application/json"})
-    public void createSell(HashMap<Long, Integer> hashmap, String apkKey) {
-        order.makeSell(hashmap, apkKey);
+    public void createSell(List<Long> idProdutKey, List<Integer> qtd, String apkKey) {
+        order.makeSell(idProdutKey, qtd, apkKey);
     }
 
     /**

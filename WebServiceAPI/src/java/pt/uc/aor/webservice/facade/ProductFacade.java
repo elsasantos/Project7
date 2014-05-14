@@ -81,22 +81,32 @@ public class ProductFacade extends AbstractFacade<Product> {
      * @return //
      */
     public List<Product> searchByProduct(String column, String word) {
-        log.info("Product.findByWord(" + word + ")");
+        log.info("Product.searchByProduct(" + word + ")");
         List<Product> p = new ArrayList<>();
-        try {
-            if (column.equals("Designation")) {
-                p = em.createNamedQuery("Product.findByWord").setParameter("word", "%" + word + "%").getResultList();
-            }
-            if (column.equals("Category")) {
-                p = em.createNamedQuery("Product.findByCategoriaName").setParameter("word", "%" + word + "%").getResultList();
-            }
-            if (column.equals("Description")) {
-                p = em.createNamedQuery("Product.findByDescription").setParameter("description", "%" + word + "%").getResultList();
-            }
+        TypedQuery<Product> q;
 
+        try {
+            q = em.createNamedQuery("Product.findByBrand", Product.class);
+            q.setParameter("brand", "%" + word + "%");
+            p = q.getResultList();
         } catch (NoResultException ex) {
-            log.info("Não encontrou nenhum Produto pela pesquisa '" + word + "'.");
+            log.info("Não encontrou nenhum Produto com a designação " + word + ".");
         }
+
+//        try {
+//            if (column.equals("Designation")) {
+//                p = em.createNamedQuery("Product.findByWord").setParameter("word", "%" + word + "%").getResultList();
+//            }
+//            if (column.equals("Category")) {
+//                p = em.createNamedQuery("Product.findByCategoriaName").setParameter("word", "%" + word + "%").getResultList();
+//            }
+//            if (column.equals("Description")) {
+//                p = em.createNamedQuery("Product.findByDescription").setParameter("description", "%" + word + "%").getResultList();
+//            }
+//
+//        } catch (NoResultException ex) {
+//            log.info("Não encontrou nenhum Produto pela pesquisa '" + word + "'.");
+//        }
         return p;
     }
 
